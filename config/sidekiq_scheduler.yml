@@ -1,0 +1,6 @@
+repo_sync_job:
+  cron: "*/30 * * * *"
+  class: "RepoSyncJob"
+  queue: "default"
+  args:
+  description: "This job runs every 30 minutes to poll all user's repositories"
