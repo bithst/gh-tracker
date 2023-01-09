@@ -1,0 +1,14 @@
+<table>
+  <thead>
+    <tr>
+      <th>Contributors</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @contributors.each do |contributor| %>
+      <tr>
+        <td><%= contributor.name %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
