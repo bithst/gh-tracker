@@ -20,5 +20,9 @@ module Github
     def contributors
       Github::Contributors.new(@user_name, @repository)
     end
+
+    def pull_requests
+      Github::PullRequests.new(@user_name, @repository)
+    end
   end
 end

@@ -1,8 +1,19 @@
 Rails.application.routes.draw do
+  mount Sidekiq::Web, at: '/sidekiq'
+
   resources :users do
     resources :repos do
-      resources :contributors
+      resources :contributors do
+        collection { get 'poll', to: 'contributors#poll' }
+      end
+
+      resources :pull_requests do
+        collection { get 'poll', to: 'pull_requests#poll' }
+      end
+
+      collection { get 'poll', to: 'repos#poll' }
     end
   end
-  # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
+
+  get 'webhook', to: 'api/v1/webhooks#github'
 end

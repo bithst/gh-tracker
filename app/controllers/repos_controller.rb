@@ -1,37 +1,33 @@
 class ReposController < ApplicationController
+  include FromParams
+
+  before_action :current_user
+  before_action :current_repo, only: %i[destroy]
+
   def index
-    @user = User.find(params[:user_id])
     @repos = @user.repos
   end
 
-  def new
-    @user = User.find(params[:user_id])
-    @repo = Repo.new
-  end
+  def poll
+    response = Github.user(@user.name).repos[]
 
-  def create
-    @user = User.find(params[:user_id])
-    @repo = Repo.new(repo_params)
-    @repo.user = @user
+    if response[:code].eql?('200')
+      Repo.transaction do
+        response[:body].pluck('name').each do |repo_name|
+          @user.repos.where(name: repo_name).first_or_create!
+        end
+      end
 
-    if @repo.save
-      redirect_to user_repos_path(@user)
+      redirect_to user_repos_path(@user), notice: 'Repos were polled successfully'
     else
-      render :new
+      redirect_to user_repos_path(@user)
     end
   end
 
   def destroy
-    @user = User.find(params[:user_id])
     @repo = @user.repos.find(params[:id])
     @repo.destroy
 
     redirect_to user_repos_path(@user)
-  end
-
-  private
-
-  def repo_params
-    params.require(:repo).permit(:name)
   end
 end

@@ -3,6 +3,7 @@
     <tr>
       <th>Repo</th>
       <th>Contributors</th>
+      <th>Pull Requests</th>
       <th></th>
     </tr>
   </thead>
@@ -11,10 +12,11 @@
       <tr>
         <td><%= repo.name %></td>
         <td><%= repo.contributors.size %> (<%= link_to 'View Contributors', user_repo_contributors_path(@user, repo) %>)</td>
+        <td><%= repo.pull_requests.size %> (<%= link_to 'View Pull Requests', user_repo_pull_requests_path(@user, repo) %>)</td>
         <td><%= link_to "Delete", user_repo_path(@user, repo), method: :delete %></td>
       </tr>
     <% end %>
   </tbody>
 </table>
 
-<%= link_to 'New Repo', new_user_repo_path(@user) %>
+<%= link_to 'Poll repositories', poll_user_repos_path, params: { user_id: @user.id } %>

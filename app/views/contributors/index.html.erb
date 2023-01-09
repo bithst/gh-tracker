@@ -12,3 +12,5 @@
     <% end %>
   </tbody>
 </table>
+
+<%= link_to 'Poll contributors', poll_user_repo_contributors_url, params: { user_id: @user.id, repo_id: @repo_id } %>

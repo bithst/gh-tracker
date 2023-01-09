@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_01_08_181106) do
+ActiveRecord::Schema.define(version: 2023_01_08_212147) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -21,6 +21,18 @@ ActiveRecord::Schema.define(version: 2023_01_08_181106) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["repo_id"], name: "index_contributors_on_repo_id"
+  end
+
+  create_table "pull_requests", force: :cascade do |t|
+    t.string "title"
+    t.string "state"
+    t.bigint "repo_id"
+    t.bigint "user_id"
+    t.datetime "merged_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["repo_id"], name: "index_pull_requests_on_repo_id"
+    t.index ["user_id"], name: "index_pull_requests_on_user_id"
   end
 
   create_table "remotes", force: :cascade do |t|
@@ -46,6 +58,8 @@ ActiveRecord::Schema.define(version: 2023_01_08_181106) do
   end
 
   add_foreign_key "contributors", "repos"
+  add_foreign_key "pull_requests", "repos"
+  add_foreign_key "pull_requests", "users"
   add_foreign_key "repos", "users"
   add_foreign_key "users", "remotes", column: "remotes_id"
 end

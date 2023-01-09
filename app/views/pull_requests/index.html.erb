@@ -1,0 +1,18 @@
+<table>
+  <thead>
+    <tr>
+      <th>State</th>
+      <th>Pull Requests</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @pull_requests.each do |pull_request| %>
+      <tr>
+        <td><%= pull_request.state %></td>
+        <td><%= pull_request.title %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= link_to 'Poll pull requests', poll_user_repo_pull_requests_url, params: { user_id: @user.id, repo_id: @repo_id } %>

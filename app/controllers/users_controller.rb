@@ -1,4 +1,8 @@
 class UsersController < ApplicationController
+  include FromParams
+
+  before_action :current_user, only: %i[destroy]
+
   def index
     @users = User.all
   end
@@ -14,7 +18,6 @@ class UsersController < ApplicationController
   end
 
   def destroy
-    @user = User.find(params[:id])
     @user.destroy
 
     redirect_to users_path
